@@ -1,0 +1,46 @@
+{{ define "embed" }}
+    <!-- Dynamic Slider -->
+    <div class="slider">
+        {{ range .Slides }}
+            <div class="slide">
+                <img src="{{.ImageURL}}" alt="{{.Title}}" loading="lazy">
+                {{ if or .Title .Subtitle }}
+                <div class="slide-content">
+                    {{ if .Title }}<h2>{{.Title}}</h2>{{ end }}
+                    {{ if .Subtitle }}<p>{{.Subtitle}}</p>{{ end }}
+                    {{ if .Link }}<a href="{{.Link}}" class="btn-slide">Ver más</a>{{ end }}
+                </div>
+                {{ end }}
+            </div>
+        {{ end }}
+    </div>
+    
+    <!-- Dynamic Categories -->
+    <section class="categories">
+        <h2>Nuestros Productos y Servicios</h2>
+        <div class="category-grid">
+            {{ range .Categories }}
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="{{.ImageURL}}" alt="{{.Name}}" loading="lazy">
+                        <div class="overlay">
+                            <a href="/productos/{{.Slug}}" class="btn-transparent">{{.Name}}</a>
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+    </section>
+    
+    <!-- Dynamic Videos -->
+    {{ if .Videos }}
+    <section class="videos">
+        <h2>Nuestro Trabajo</h2>
+        <div class="video-container">
+            {{ range .Videos }}
+                <iframe width="560" height="315" src="{{.}}" frameborder="0" allowfullscreen></iframe>
+            {{ end }}
+        </div>
+    </section>
+    {{ end }}
+{{ end }}

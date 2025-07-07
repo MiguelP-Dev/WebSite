@@ -1,0 +1,146 @@
+{{ define "content" }}
+<section class="hero-section">
+    <div class="container">
+        <h1>Catálogo Completo</h1>
+        <p>Explora todos nuestros productos y servicios</p>
+    </div>
+</section>
+
+<section class="catalog-section">
+    <div class="container">
+        <!-- Filtros y búsqueda -->
+        <div class="catalog-controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar productos...">
+                <button type="button" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="filters">
+                <select id="categoryFilter">
+                    <option value="">Todas las categorías</option>
+                    <!-- Las opciones se cargarán dinámicamente -->
+                </select>
+                <select id="sortFilter">
+                    <option value="name">Ordenar por nombre</option>
+                    <option value="price_low">Precio: menor a mayor</option>
+                    <option value="price_high">Precio: mayor a menor</option>
+                    <option value="newest">Más recientes</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="catalog-results">
+            {{if .Products}}
+            <div class="products-grid" id="productsGrid">
+                {{range .Products}}
+                <div class="product-card" data-category="{{.Category.Name}}" data-name="{{.Name}}">
+                    {{if .ImageURL}}
+                    <div class="product-image">
+                        <img src="{{.ImageURL}}" alt="{{.Name}}" loading="lazy">
+                        {{if .Category}}
+                        <div class="product-category">
+                            <span>{{.Category.Name}}</span>
+                        </div>
+                        {{end}}
+                    </div>
+                    {{end}}
+                    <div class="product-info">
+                        <h3>{{.Name}}</h3>
+                        {{if .Description}}
+                        <p class="product-description">{{.Description}}</p>
+                        {{end}}
+                        {{if .Price}}
+                        <div class="product-price">
+                            <span class="price">${{.Price}}</span>
+                        </div>
+                        {{end}}
+                        {{if .Features}}
+                        <div class="product-features">
+                            <ul>
+                                {{range .Features}}
+                                <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
+                        {{end}}
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-sm" onclick="showProductDetails('{{.ID}}')">
+                                Ver detalles
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="addToInquiry('{{.ID}}')">
+                                Cotizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+            {{else}}
+            <div class="no-products">
+                <h2>No hay productos disponibles</h2>
+                <p>Pronto tendremos productos en nuestro catálogo.</p>
+                <a href="/contacto" class="btn btn-primary">Contactar para más información</a>
+            </div>
+            {{end}}
+        </div>
+
+        <!-- Paginación -->
+        {{if .Products}}
+        <div class="pagination">
+            <button class="btn btn-secondary" id="prevPage" disabled>Anterior</button>
+            <span class="page-info">Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+            <button class="btn btn-secondary" id="nextPage">Siguiente</button>
+        </div>
+        {{end}}
+    </div>
+</section>
+
+<!-- Modal para detalles del producto -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="productModalContent">
+            <!-- El contenido se cargará dinámicamente -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal para cotización -->
+<div id="inquiryModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Solicitar cotización</h2>
+        <form id="inquiryForm" class="form">
+            <div class="form-group">
+                <label for="inquiryName">Nombre completo *</label>
+                <input type="text" id="inquiryName" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="inquiryEmail">Correo electrónico *</label>
+                <input type="email" id="inquiryEmail" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="inquiryPhone">Teléfono</label>
+                <input type="tel" id="inquiryPhone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="inquiryMessage">Mensaje adicional</label>
+                <textarea id="inquiryMessage" name="message" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Enviar cotización</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>¿No encuentras lo que buscas?</h2>
+        <p>Contáctanos para solicitar productos personalizados o servicios especiales</p>
+        <a href="/contacto" class="btn btn-primary">Contactar</a>
+    </div>
+</section>
+{{ end }}

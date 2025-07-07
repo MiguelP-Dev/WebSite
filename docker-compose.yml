@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=photostudio
+      - DB_PASSWORD=secret
+      - DB_NAME=photostudio
+      - DB_PORT=5432
+    depends_on:
+      - db
+      - cms
+
+  cms:
+    build:
+      context: .
+      dockerfile: Dockerfile.cms
+    ports:
+      - "4000:4000"
+    environment:
+      - CMS_DB_HOST=db
+      - CMS_DB_USER=photostudio
+      - CMS_DB_PASSWORD=secret
+      - CMS_DB_NAME=photostudio
+      - CMS_DB_PORT=5432
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=photostudio
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=photostudio
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+      - cms
+
+volumes:
+  postgres_data:

@@ -1,0 +1,117 @@
+{{ define "content" }}
+<section class="hero-section">
+    <div class="container">
+        <h1>Contacto</h1>
+        <p>Estamos aquí para ayudarte. Contáctanos de la manera que prefieras.</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Información de contacto -->
+            <div class="contact-info">
+                <h2>Información de Contacto</h2>
+                {{if .Contacts}}
+                <div class="contact-list">
+                    {{range .Contacts}}
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            {{if eq .Type "phone"}}
+                            <i class="fas fa-phone"></i>
+                            {{else if eq .Type "email"}}
+                            <i class="fas fa-envelope"></i>
+                            {{else if eq .Type "address"}}
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{else if eq .Type "whatsapp"}}
+                            <i class="fab fa-whatsapp"></i>
+                            {{else}}
+                            <i class="fas fa-info-circle"></i>
+                            {{end}}
+                        </div>
+                        <div class="contact-details">
+                            <h3>{{.Title}}</h3>
+                            <p>{{.Value}}</p>
+                            {{if .Description}}
+                            <p class="description">{{.Description}}</p>
+                            {{end}}
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+                {{else}}
+                <p>Información de contacto no disponible.</p>
+                {{end}}
+            </div>
+
+            <!-- Formulario de contacto -->
+            <div class="contact-form">
+                <h2>Envíanos un mensaje</h2>
+                <form id="contactForm" class="form">
+                    <div class="form-group">
+                        <label for="name">Nombre completo *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Asunto *</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje *</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="map-section">
+    <div class="container">
+        <h2>Nuestra ubicación</h2>
+        <div class="map-container">
+            <div id="map" class="map">
+                <p>Cargando mapa...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section">
+    <div class="container">
+        <h2>Preguntas frecuentes</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <h3>¿Cuáles son sus horarios de atención?</h3>
+                <p>Nuestros horarios de atención son de lunes a viernes de 9:00 AM a 6:00 PM, y sábados de 9:00 AM a 2:00 PM.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>¿Ofrecen servicios a domicilio?</h3>
+                <p>Sí, ofrecemos servicios a domicilio en ciertas áreas. Contáctanos para verificar si cubrimos tu zona.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>¿Cuánto tiempo toma procesar una solicitud?</h3>
+                <p>El tiempo de procesamiento varía según el tipo de servicio. Te contactaremos dentro de 24-48 horas para confirmar los detalles.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}

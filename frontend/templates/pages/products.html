@@ -1,0 +1,76 @@
+{{ define "content" }}
+<section class="hero-section">
+    <div class="container">
+        <h1>Nuestros Productos</h1>
+        <p>Descubre nuestra amplia gama de productos y servicios de alta calidad</p>
+    </div>
+</section>
+
+<section class="products-section">
+    <div class="container">
+        {{if .Categories}}
+            {{range .Categories}}
+            <div class="category-card">
+                <div class="category-header">
+                    <h2>{{.Name}}</h2>
+                    {{if .Description}}
+                    <p>{{.Description}}</p>
+                    {{end}}
+                </div>
+                
+                {{if .Products}}
+                <div class="products-grid">
+                    {{range .Products}}
+                    <div class="product-card">
+                        {{if .ImageURL}}
+                        <div class="product-image">
+                            <img src="{{.ImageURL}}" alt="{{.Name}}" loading="lazy">
+                        </div>
+                        {{end}}
+                        <div class="product-info">
+                            <h3>{{.Name}}</h3>
+                            {{if .Description}}
+                            <p>{{.Description}}</p>
+                            {{end}}
+                            {{if .Price}}
+                            <div class="product-price">
+                                <span class="price">${{.Price}}</span>
+                            </div>
+                            {{end}}
+                            {{if .Features}}
+                            <div class="product-features">
+                                <ul>
+                                    {{range .Features}}
+                                    <li>{{.}}</li>
+                                    {{end}}
+                                </ul>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+                {{else}}
+                <div class="no-products">
+                    <p>No hay productos disponibles en esta categoría.</p>
+                </div>
+                {{end}}
+            </div>
+            {{end}}
+        {{else}}
+        <div class="no-categories">
+            <h2>No hay categorías disponibles</h2>
+            <p>Pronto tendremos productos disponibles.</p>
+        </div>
+        {{end}}
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>¿Necesitas algo específico?</h2>
+        <p>Contáctanos para obtener más información sobre nuestros productos</p>
+        <a href="/contacto" class="btn btn-primary">Contactar</a>
+    </div>
+</section>
+{{ end }}

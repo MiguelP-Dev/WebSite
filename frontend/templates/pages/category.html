@@ -1,0 +1,80 @@
+{{ define "content" }}
+<section class="hero-section">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Inicio</a> &gt;
+            <a href="/productos">Productos</a> &gt;
+            <span>{{.Category.Name}}</span>
+        </nav>
+        <h1>{{.Category.Name}}</h1>
+        {{if .Category.Description}}
+        <p>{{.Category.Description}}</p>
+        {{end}}
+    </div>
+</section>
+
+<section class="category-section">
+    <div class="container">
+        {{if .Category.Products}}
+        <div class="products-grid">
+            {{range .Category.Products}}
+            <div class="product-card">
+                {{if .ImageURL}}
+                <div class="product-image">
+                    <img src="{{.ImageURL}}" alt="{{.Name}}" loading="lazy">
+                </div>
+                {{end}}
+                <div class="product-info">
+                    <h3>{{.Name}}</h3>
+                    {{if .Description}}
+                    <p>{{.Description}}</p>
+                    {{end}}
+                    {{if .Price}}
+                    <div class="product-price">
+                        <span class="price">${{.Price}}</span>
+                    </div>
+                    {{end}}
+                    {{if .Features}}
+                    <div class="product-features">
+                        <ul>
+                            {{range .Features}}
+                            <li>{{.}}</li>
+                            {{end}}
+                        </ul>
+                    </div>
+                    {{end}}
+                    {{if .Specifications}}
+                    <div class="product-specs">
+                        <h4>Especificaciones:</h4>
+                        <ul>
+                            {{range .Specifications}}
+                            <li><strong>{{.Key}}:</strong> {{.Value}}</li>
+                            {{end}}
+                        </ul>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+            {{end}}
+        </div>
+        {{else}}
+        <div class="no-products">
+            <h2>No hay productos en esta categoría</h2>
+            <p>Pronto tendremos productos disponibles en {{.Category.Name}}.</p>
+            <a href="/productos" class="btn btn-secondary">Ver todas las categorías</a>
+        </div>
+        {{end}}
+    </div>
+</section>
+
+<section class="related-categories">
+    <div class="container">
+        <h2>Otras categorías</h2>
+        <div class="categories-grid">
+            <a href="/productos" class="category-link">
+                <span>Ver todos los productos</span>
+            </a>
+        </div>
+    </div>
+</section>
+{{ end }}

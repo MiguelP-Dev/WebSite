@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{if .Title}}{{.Title}} - {{end}}{{.SiteName}}</title>
+    <meta name="description" content="{{.SiteDescription}}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/">
+                        <h1>{{.SiteName}}</h1>
+                    </a>
+                </div>
+                
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li class="nav-item {{if eq .CurrentPage "home"}}active{{end}}">
+                            <a href="/" class="nav-link">Inicio</a>
+                        </li>
+                        <li class="nav-item {{if eq .CurrentPage "products"}}active{{end}}">
+                            <a href="/productos" class="nav-link">Productos</a>
+                        </li>
+                        <li class="nav-item {{if eq .CurrentPage "catalog"}}active{{end}}">
+                            <a href="/catalogo" class="nav-link">Catálogo</a>
+                        </li>
+                        <li class="nav-item {{if eq .CurrentPage "locations"}}active{{end}}">
+                            <a href="/ubicaciones" class="nav-link">Ubicaciones</a>
+                        </li>
+                        <li class="nav-item {{if eq .CurrentPage "contact"}}active{{end}}">
+                            <a href="/contacto" class="nav-link">Contacto</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="search-toggle" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="mobile-menu-toggle" aria-label="Menú">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-bar" id="searchBar">
+                <form class="search-form">
+                    <input type="text" placeholder="Buscar productos..." id="searchInput">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        {{template "content" .}}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>{{.SiteName}}</h3>
+                    <p>{{.SiteDescription}}</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Enlaces rápidos</h4>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/productos">Productos</a></li>
+                        <li><a href="/catalogo">Catálogo</a></li>
+                        <li><a href="/contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Información de contacto</h4>
+                    {{if .Contacts}}
+                    <ul>
+                        {{range .Contacts}}
+                        <li>
+                            {{if eq .Type "phone"}}
+                            <i class="fas fa-phone"></i>
+                            {{else if eq .Type "email"}}
+                            <i class="fas fa-envelope"></i>
+                            {{else if eq .Type "address"}}
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{else}}
+                            <i class="fas fa-info-circle"></i>
+                            {{end}}
+                            <span>{{.Value}}</span>
+                        </li>
+                        {{end}}
+                    </ul>
+                    {{else}}
+                    <p>Información de contacto no disponible.</p>
+                    {{end}}
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horarios</h4>
+                    <ul>
+                        <li>Lunes - Viernes: 9:00 AM - 6:00 PM</li>
+                        <li>Sábado: 9:00 AM - 2:00 PM</li>
+                        <li>Domingo: Cerrado</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; {{.CurrentYear}} {{.SiteName}}. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="/privacidad">Política de Privacidad</a>
+                    <a href="/terminos">Términos de Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- JavaScript -->
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/slider.js"></script>
+    
+    <!-- Page-specific scripts -->
+    {{if eq .CurrentPage "catalog"}}
+    <script src="/assets/js/catalog.js"></script>
+    {{end}}
+    
+    <!-- Admin script for admin pages -->
+    {{if eq .CurrentPage "admin"}}
+    <script src="/cms/admin/js/admin.js"></script>
+    {{end}}
+</body>
+</html> 
+</html> 
