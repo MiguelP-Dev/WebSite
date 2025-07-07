@@ -2,6 +2,7 @@
 .env
 .env.local
 .env.production
+instructions.md
 
 # Go
 *.exe
